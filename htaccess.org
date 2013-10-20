@@ -1,0 +1,13 @@
+suPHP_ConfigPath /home/join-hands/join-hands.net/xserver_php/
+AddHandler x-httpd-php5.3 .php .phps
+
+<IfModule mod_rewrite.c>
+    RewriteEngine on
+    #RewriteCond %{SERVER_PORT} 443
+    #RewriteRule ^(.*)$ http://%{HTTP_HOST}%{REQUEST_URI} [R,L]
+
+    RewriteCond %{HTTPS} on
+    #RewriteCond %{HTTPS} off
+    #RewriteRule ^(.*)$ http://%{HTTP_HOST}%{REQUEST_URI} [R,L]
+    RewriteRule ^/(.*)$ http://%{HTTP_HOST}/$1 [R]
+</IfModule>
