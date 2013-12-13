@@ -26,6 +26,7 @@ if (!array_key_exists($recipient_guid, $recipients_options)) {
 if(elgg_is_admin_logged_in()){
     //<<<added by ryukoba 2013.12.05 inの後ろに()を追加
 	$recipients_options[-1] = 'すべてのユーザー';
+}
 //<<<<<
 $recipient_drop_down = elgg_view('input/dropdown', array(
 	'name' => 'recipient_guid',
