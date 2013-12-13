@@ -37,14 +37,16 @@ if (!$body || !$subject) {
 }
 
 // Otherwise, 'send' the message 
-//>>>>>Added by demmys
+//>>>>>Added by demmys 2013.11.29
 $count = 1;
 function send_message_to_all_user($elem){
     global $count;
     $subject = strip_tags(get_input('subject'));
     $body = get_input('body');
     $count++;
-    messages_send($subject, $body, $elem->guid, 0, $reply);
+    //>>>>>added by ryukoba 2013.12.01
+    messages_send($subject, $body, $elem->guid, 0, $reply,false,false);
+    //<<<<< 2013.12.01 add false 
     if($count == get_number_users()){
         /*
         if (!$result) {
@@ -64,7 +66,7 @@ if($recipient_guid == -1){
         'limit' => false
     ));
 } else{
-//<<<<<
+//<<<<< 2013.11.29
 $result = messages_send($subject, $body, $recipient_guid, 0, $reply);
 
 // Save 'send' the message
@@ -76,8 +78,7 @@ if (!$result) {
 elgg_clear_sticky_form('messages');
 	
 system_message(elgg_echo("messages:posted"));
-
 forward('messages/inbox/' . elgg_get_logged_in_user_entity()->username);
-//>>>>>Added by demmys
+//>>>>>Added by demmys 2013.11.29
 }
-//<<<<<
+//<<<<< 2013.11.29
