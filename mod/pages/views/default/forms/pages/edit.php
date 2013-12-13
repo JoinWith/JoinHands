@@ -12,6 +12,8 @@ $can_change_access = true;
 if ($user && $entity) {
 	$can_change_access = ($user->isAdmin() || $user->getGUID() == $entity->owner_guid);
 }
+/* Add Tani 2013.12.06 */
+$role = roles_get_role();
 
 foreach ($variables as $name => $type) {
 	// don't show read / write access inputs for non-owners or admin when editing
@@ -30,13 +32,26 @@ foreach ($variables as $name => $type) {
 		$input_view = "input/$type";
 	}
 
+	/* Add Tani 2013.12.02 */
+	if ($name == "tags" && !elgg_is_admin_logged_in()) {
+		$input_view = "input/hidden";
+	}
+	/* Add Tani 2013.12.09 */
+	if ($role->name == "creator" && ($name == "access_id" || $name == "write_access_id")) {
+		$input_view = "input/hidden";
+	}
 ?>
 <div>
-	<label><?php echo elgg_echo("pages:$name") ?></label>
 	<?php
+		/* Modify Tani 2013.12.02 */
+		if ($input_view != "input/hidden") {
+			echo '<label>' . elgg_echo("pages:$name") . '</label>';
+		}
+/*
 		if ($type != 'longtext') {
 			echo '<br />';
 		}
+*/
 
 		echo elgg_view($input_view, array(
 			'name' => $name,
