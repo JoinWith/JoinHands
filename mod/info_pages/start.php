@@ -265,45 +265,21 @@ function info_pages_sidebar_menu_setup($hook, $type, $return, $params) {
 		}
 		
 		
-		//if(($page->menu_show == 'on') || ($subpages) || ($subsubpages)){
-		if(($page->menu_show == 'on')){
+		if(($page->menu_show == 'on') || ($subpages) || ($subsubpages)){
 			$parent = get_entity($page->parent_guid);
 			//do we have a parent of parent?
 			try {
 				$parentofparent = get_entity($parent->parent_guid);
 			} catch (Exception $e){
 			}
-
-			// priority
-			if ($page->orderno != 0) {
-				$priority = $page->orderno * 100;
-			} else {
-				if ($parent->orderno) {
-					$priority = $parent->orderno * 100 + $page->sub_orderno * 10;
-				} else {
-					$priority = $parentofparent->orderno * 100 + $parent->sub_orderno * 10 + $page->sub_orderno;
-				}
-			}
-			if ($page->orderno) {
 			$options = array(
 				'name' => $page->title,
-				//'text' => elgg_view_icon('info') . "<b>" . $page->title . " p:" . $priority . " guid:" . $page->guid . "</b>",
-				'text' => elgg_view_icon('info') . "<b>" . $page->title . "</b>",
-				'href' => $page->getUrl(),
-				'priority' => $priority,
-				//'priority' => $page->orderno != 0 ? $page->orderno : ($page->sub_orderno /100) + ($parent->orderno ? $parent->orderno : ($parent->sub_orderno / 100) + $parentofparent->orderno),
-				'class' => $page->parent_guid ? $parentofparent ? 'sub_subpage'  : 'subpage' : '',
-			);
-			} else {
-			$options = array(
-				'name' => $page->title,
-				//'text' => $page->title . " p:" . $priority . " guid:" . $page->guid,
 				'text' => $page->title,
 				'href' => $page->getUrl(),
-				'priority' => $priority,
+				'priority' => $page->orderno != 0 ? $page->orderno : ($page->sub_orderno /100) + ($parent->orderno ? $parent->orderno : ($parent->sub_orderno / 100) + $parentofparent->orderno),
 				'class' => $page->parent_guid ? $parentofparent ? 'sub_subpage'  : 'subpage' : '',
 			);
-			}
+
 
 			$return[] = ElggMenuItem::factory($options);
 		} else {
